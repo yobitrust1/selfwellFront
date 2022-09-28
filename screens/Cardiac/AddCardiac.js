@@ -96,7 +96,38 @@ const BloodAnalysisHistory = ({navigation}) => {
       //date.setTime(date.getTime()-date.getTimezoneOffset()*60*1000)
       setDate(date)
       date1 = moment(date).format('YYYY-MM-DD');
+      //////////////////////////
       retrieveBloodanalysis();
+      let temp= [];
+        for (var i = 0; i < bloodanalysis.length; i++) {
+          if ((bloodanalysis[i].bloodAnalysisDate).substring(0, 10) == date1.substring(0,10) ) {
+            temp.push(bloodanalysis[i]);
+            setTodayTest(temp);
+            
+
+          }
+        
+        }
+        setTodayTest(temp);
+        /////////////////////
+      retrieveBmi()
+    let temp1=0 ;
+    let temp2=0 ;
+    let temp3=0 ;
+    for (var i = 0; i < bmis.length; i++) {
+      if ((bmis[i].bmiDate).substring(0, 10) == date1.substring(0,10) ) {
+      temp1=bmis[i].bmi;
+      temp2=bmis[i].height;
+      temp3=bmis[i].weight;
+      setData0(temp3);
+      setData1(temp1);
+      setData2(temp2);
+        }
+      }
+      setData0(temp3);
+      setData1(temp1);
+      setData2(temp2);
+      
       getBreakfast(date1);
     getLunch(date1);
     getDinner(date1);
@@ -160,7 +191,7 @@ const BloodAnalysisHistory = ({navigation}) => {
         }
         setTodayTest(temp);
         console.log(date1);
-      }, [date1]);
+      }, []);
 
     const retrieveBloodanalysis = async () => {
       idUser = await AsyncStorage.getItem("id");
@@ -255,9 +286,9 @@ console.log(value);
         )
     }
     
+  
   useEffect(() => {
-    retrieveBmi()}, [idUser]);
-  useEffect(() => {
+    retrieveBmi()
     let temp1=0 ;
     let temp2=0 ;
     let temp3=0 ;
@@ -274,7 +305,7 @@ console.log(value);
       setData0(temp3);
       setData1(temp1);
       setData2(temp2);
-  },[bmis,date1]);
+  },[date1]);
    const retrieveBmi = async () => {
 
     idUser = await AsyncStorage.getItem("id");
@@ -309,7 +340,9 @@ const retrieveCognitive = async () => {
             <Text style={styles.back}>{back}</Text>
           </TouchableOpacity>
          
-          <Text style={styles.headerText}>My blood analysis History</Text>
+          <Text style={styles.headerText}>My analysis History</Text>
+                      
+
           </View>
 <View >
 
@@ -330,7 +363,7 @@ const retrieveCognitive = async () => {
       
       <View>
       
-{todayTest ? ( 
+
   <View>
     
 <View style={styles.containerThree}>
@@ -493,13 +526,7 @@ const retrieveCognitive = async () => {
            ))}
     
            </View> 
-           </View>) : (
-<View style={styles.containerThree}>
-
-<Text>Add and Log Food</Text>
-</View>
-               
-            )}
+           </View>
            </View>
            
 {/* ////////////////////////////////////////// */}
@@ -545,7 +572,7 @@ const retrieveCognitive = async () => {
           <Text style={styles.dateText}>{moment(date1).format('LL')}</Text>
           <Block row space="between" style={{ marginBottom: 30 }}>
           </Block>
-          {cognitive ? (<Text style={styles.textStyle}>{cognitive.score}</Text>) : (<Text style={styles.textStyle}>No Data</Text>)}
+          {cognitive ? (<Text style={styles.textStyle}>cognitive test:{cognitive.score}</Text>) : (<Text style={styles.textStyle}>No Data</Text>)}
 
       
 
