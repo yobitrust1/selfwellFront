@@ -1,10 +1,11 @@
 // App.js 
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, Button } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity,StyleSheet, Image, Button } from 'react-native';
 
 import * as ImagePicker from 'expo-image-picker';
-
-function App() {
+const { width, height } = Dimensions.get("window");
+var back = '<';
+function App({navigation}) {
   // The path of the picked image
   const [pickedImagePath, setPickedImagePath] = useState('');
   const [pickedImage, setPickedImage] = useState();
@@ -81,6 +82,7 @@ function App() {
   };
   return (
     <View style={styles.screen}>
+      
       <View style={styles.buttonContainer}>
       {/* <View style={styles.row}> */}
         <Button style={styles.ccl} onPress={showImagePicker} title="Select an image" />
@@ -88,6 +90,8 @@ function App() {
         <Button style={styles.ccl} onPress={openCamera} title="Open camera" />
         <View style={styles.space} />
         <Button style={styles.ccl} onPress={UploadPhotoAsync} title="Prediction" />
+        <View style={styles.space} />
+        <Button style={styles.ccl} onPress={() => {navigation.navigate('Home')}} title="Return" />
         {/* </View> */}
       </View>
 
@@ -116,6 +120,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
         padding: 30
     
+  },
+  header: {
+    height: height * 0.08,
+    width: width,
+    flexDirection: 'row',
   },
   space: {
     width: 20, // or whatever size you need

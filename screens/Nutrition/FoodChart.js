@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import {
+import {Button,
   ImageBackground,
   Text,
   StyleSheet,
@@ -20,6 +20,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import API from '../../API';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import 'localstorage-polyfill'; 
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const { width, height } = Dimensions.get("window");
 var back = '<';
@@ -29,6 +30,8 @@ const FoodChart = props => {
     const res = localStorage.getItem("value");
     const moment = require('moment');
     const today = moment();
+var date1 = today.format('YYYY-MM-DD');
+
     const [contents, setContents] = useState([]);
     
     const initialAnalyseState = {
@@ -51,14 +54,32 @@ const FoodChart = props => {
         netCarbs: '',
         quantity: 1,
         breakfastDate: today.format("YYYY-MM-DD"),
-    });
+    });   
+      const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+      const [datePicker, setDatePicker] = useState(false); 
+      const [timePicker, setTimePicker] = useState(false);
+      const [time, setTime] = useState(new Date(Date.now())); 
+      const [date, setDate] = useState(new Date());
       const [open, setOpen] = useState(false);
       const [currentFood, setCurrentFood] = useState(initialAnalyseState);
       const [currentDate, setCurrentDate] = useState(today.format("YYYY-MM-DD"));
       const [quantity, setQuantity] = useState(1);
       const [value, setValue] = useState(res);
       const [items, setItems] = useState([ {label: 'Breakfast', value: 'Breakfast'}, {label: 'Lunch', value: 'Lunch'}, {label: 'Dinner', value: 'Dinner'} ]);
-
+      const showDatePickeraa = () => {
+        setDatePickerVisibility(true);
+      };
+    
+      const hideDatePickeraa = () => {
+        setDatePickerVisibility(false);
+      };
+      const handleConfirm = (date) => {
+        dateChange(moment(date).format("YYYY-MM-DD"));
+        setDate(date)
+        date1 = moment(date).format('YYYY-MM-DD');
+        setDatePicker(false);
+        hideDatePickeraa();
+      };
       const {navigation} = props;
 
 
@@ -309,30 +330,21 @@ const FoodChart = props => {
                 <Text style={styles.textCalories}>Calories: {parseFloat(currentFood.calories) * quantity} Kcal</Text>
                 </View>
                
-                
+                {!datePicker && 
+  <View >
+  <Button color="green" title={date !== undefined && date.toString().substr(0, 21) || "Choose date"} onPress={showDatePickeraa} />
+              <DateTimePickerModal
+  
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={handleConfirm}
+                onCancel={hideDatePickeraa}
+                testID="dateTimePicker"
+  
+              /></View>
+ }
                   
-                  <DatePicker
-                    mode="date"
-                    placeholder={(data.breakfastDate !== undefined && data.breakfastDate) || (currentDate)}
-                    format="YYYY-MM-DD"
-                    minDate="2000-01-01"
-                    maxDate={new Date()}
-                    confirmBtnText="Confirm"
-                    cancelBtnText="Cancel"
-                    style={{ width: width * 0.6 }}
-                    customStyles={{
-                    dateIcon: {
-                    position: 'absolute',
-                    left: width * 0.05 ,
-                    marginLeft: 0
-                    },
-                    dateInput: {
-                    marginLeft: width * 0.15
-                    }
-
-                    }}
-                onDateChange={(val) => { dateChange(moment(val).format("YYYY-MM-DD")) }}
-                  />
+             
                   <View>
                   <View style={{alignItems: 'center', padding: height * 0.02}}>
                  

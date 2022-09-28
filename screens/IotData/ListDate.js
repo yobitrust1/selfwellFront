@@ -11,6 +11,7 @@ import {
   ScrollView
 } from 'react-native';
 import axios from "axios";
+import { Button , TextInput , useTheme } from 'react-native-paper';
 const baseURL = "https://test.yobitrust.com:8443/HachCovid19Back/getAllDate";
 const Json1 = (props) => {
   let config = {
@@ -50,13 +51,15 @@ const Json1 = (props) => {
       <View style={styles.container1}> 
       <Text style={styles.count}>List de date</Text>
 
-{post.map((post) => (
+{post.map((post) => ( 
           <View style={styles.card} >
             <TouchableOpacity value={post.date} onPress={() => handledateChange(post.date)}>                  
               <Text  >{JSON.stringify(new Date(parseInt(post.date)))}</Text>
 </TouchableOpacity>
                   </View>
         ))}
+        <Button title="Return" mode="contained" style={{ marginTop: 15 }} onPress={() => {props.navigation.navigate('Home')}}  >Return</Button>
+
 </View>
 </ScrollView></View>
       );

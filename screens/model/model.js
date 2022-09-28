@@ -41,7 +41,7 @@ const radioButtonsData2 = [{
 }]
 
 
-const HabitudesDeVie1 = (props) => {
+const HabitudesDeVie1 = ({navigation},props) => {
   const { colors } = useTheme();
   const [prediction, setprediction] = useState();
   const [prediction2, setprediction2] = useState();
@@ -234,8 +234,9 @@ useEffect(() => {
        <Button title="prediction2" mode="contained" style={{ marginTop: 15 }} onPress={get_prediction2} >prediction 2</Button>
        <Text> "prediction est "{prediction}</Text>
        <Text> "prediction2 est "{prediction2}</Text>
+       <Button title="Return" mode="contained" style={{ marginTop: 15 }} onPress={() => {navigation.navigate('Home')}}  >Return</Button>
+
             </View>
- 
 
 
 

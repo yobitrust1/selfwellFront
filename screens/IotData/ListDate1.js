@@ -12,8 +12,9 @@ import {
   Alert,
   ScrollView
 } from 'react-native';
+import { Button , TextInput , useTheme } from 'react-native-paper';
 const baseURL = "http://test.yobitrust.com:8080/HachCovid19Back";
-export default function ListDate1() {
+export default function ListDate1({navigation}) {
   const [post, setPost] = React.useState();
   //var data1="1654856397509";
 var data1=localStorage.getItem("dataIot");
@@ -63,6 +64,8 @@ var numDate= new Date(parseInt(data1));
   <Line theme={{ stroke: { color: '#ffa502', width: 5 } }} />
 </Chart>
 </View>
+<Button title="Return" mode="contained" style={{ marginTop: 15 }} onPress={() => {navigation.navigate('Home')}}  >Return</Button>
+
 </View>
 </ScrollView></View>
       );
